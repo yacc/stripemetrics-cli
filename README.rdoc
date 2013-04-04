@@ -1,0 +1,6 @@
+= stripemetrics-cli
+
+Describe your project here
+
+:include:stripemetrics-cli.rdoc
+

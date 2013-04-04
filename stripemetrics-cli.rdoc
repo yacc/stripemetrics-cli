@@ -1,0 +1,5 @@
+= stripemetrics-cli
+
+Generate this with
+    stripemetrics-cli rdoc
+After you have described your command line interface

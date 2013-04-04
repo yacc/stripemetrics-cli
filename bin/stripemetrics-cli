@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'stripemetrics-cli'
+require 'stripemetrics-cli/authorization'
+
+include GLI::App
+
+program_desc 'Get stripe metrics from the command line'
+
+version StripemetricsCli::VERSION
+
+desc 'Development mode'
+switch [:d,:development]
+
+desc 'Login and authorize with StripeMetrics.com'
+command :login do |c|
+  c.flag [:e, :email],   :arg_name => 'login_email',
+                         :desc => 'your stripemetrics.com login email'
+  c.flag [:p,:password], :arg_name => 'password',
+                         :desc => 'your stripemetrics.com password'
+
+  c.action do |global_options,options,args|
+    # $task_list << StripemetricsCli::Task.new(args.join(' '))
+    # Your command logic here
+     
+    # If you have any errors, just raise them
+    # raise "that command made no sense"
+
+    puts "setup command ran"
+  end
+end
+
+desc 'Import customer and subscritpion data'
+#arg_name 'Describe arguments to import here'
+command :import do |c|
+  c.flag [:f,:filename], :arg_name => 'file_name',
+                 :desc => 'The (csv) filename of deleted customers to import'
+  c.action do |global_options,options,args|
+    puts "import command ran"
+  end
+end
+
+desc 'Refresh your data'
+arg_name 'Describe arguments to refresh here'
+command :refresh do |c|
+  c.action do |global_options,options,args|
+    puts "refresh command ran"
+  end
+end
+
+desc 'Generate report(s)'
+arg_name 'Describe arguments to report here'
+command :report do |c|
+  c.action do |global_options,options,args|
+    puts "report command ran"
+  end
+end
+
+pre do |global,command,options,args|
+  auth = StripemetricsCli::Authorization.new
+  if command != 'help' && !auth.valid?
+    exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
+  end
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)
