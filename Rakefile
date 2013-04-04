@@ -4,6 +4,9 @@ require 'rubygems/package_task'
 require 'rdoc/task'
 require 'cucumber'
 require 'cucumber/rake/task'
+require 'rspec/core/rake_task'
+
+
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
@@ -14,6 +17,11 @@ spec = eval(File.read('stripemetrics-cli.gemspec'))
 
 Gem::PackageTask.new(spec) do |pkg|
 end
+
+# ========= RSPEC =======
+RSpec::Core::RakeTask.new('spec')
+
+# ========= CUCUMBER ====
 CUKE_RESULTS = 'results.html'
 CLEAN << CUKE_RESULTS
 desc 'Run features'
@@ -41,4 +49,4 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/*_test.rb']
 end
 
-task :default => [:test,:features]
+task :default => [:spec,:features]

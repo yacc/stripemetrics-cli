@@ -14,19 +14,13 @@ switch [:d,:development]
 
 desc 'Login and authorize with StripeMetrics.com'
 command :login do |c|
-  c.flag [:e, :email],   :arg_name => 'login_email',
-                         :desc => 'your stripemetrics.com login email'
-  c.flag [:p,:password], :arg_name => 'password',
-                         :desc => 'your stripemetrics.com password'
+  c.action do |global,options,args|
+    username = ask("StripeMetrics.com login:      ")
+    password = ask("Enter your password:  ") { |q| q.echo = false }
+    
+    api_client = StripemetricsCli::ApiClient.new
+    auth = StripemetricsCli::Authorization.new(api_client,{:email => username,:password => password})
 
-  c.action do |global_options,options,args|
-    # $task_list << StripemetricsCli::Task.new(args.join(' '))
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
-
-    puts "setup command ran"
   end
 end
 
@@ -58,7 +52,7 @@ end
 
 pre do |global,command,options,args|
   auth = StripemetricsCli::Authorization.new
-  if command != 'help' && !auth.valid?
+  if (command != 'help' || command != 'login' )&& !auth.valid?
     exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
   end
   true

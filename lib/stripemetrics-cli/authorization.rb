@@ -1,5 +1,17 @@
+require 'netrc'
 module StripemetricsCli
   class Authorization
+    attr_reader :token
+
+    def initialize(api_client,options={})
+      if options.has_key?(:email) && options.has_key?(:password)
+        @username = options[:email]
+        @token    = api_client.get_token(options[:email],options[:password])
+        write_credentials
+      else
+        @token = read_token
+      end    
+    end
 
     def login!
 
@@ -10,28 +22,53 @@ module StripemetricsCli
     end
 
     def valid?
-      
+      @token
+    end
+
+    def host
+      "stripemetrics.com"  
+    end
+
+    def netrc_path
+      default = Netrc.default_path
+      encrypted = default + ".gpg"
+      if File.exists?(encrypted)
+        encrypted
+      else
+        default
+      end
+    end
+
+    def netrc   # :nodoc:
+      @netrc ||= begin
+        File.exists?(netrc_path) && Netrc.read(netrc_path)
+      rescue => error
+        if error.message =~ /^Permission bits for/
+          perm = File.stat(netrc_path).mode & 0777
+          abort("Permissions #{perm} for '#{netrc_path}' are too open. You should run `chmod 0600 #{netrc_path}` so that your credentials are NOT accessible by others.")
+        else
+          raise error
+        end
+      end
+    end
+
+    def read_token
+      token = if netrc
+        credentials = netrc["api.#{host}"]
+        credentials[1] if credentials
+      end
+    end
+
+    def write_credentials
+      FileUtils.mkdir_p(File.dirname(netrc_path))
+      FileUtils.touch(netrc_path)      
+      FileUtils.chmod(0600, netrc_path) unless RUBY_PLATFORM =~ /mswin32|mingw32/
+
+      if (@username && @token)
+        netrc["api.#{host}"] = @username,@token
+        netrc.save
+      end
     end
 
   end
 end
-
-
-
-
-
-
-# $ ls .netrc
-# ls: .netrc: No such file or directory
-# $ heroku login
-# Enter your Heroku credentials.
-# Email: me@example.com
-# Password:
-# $ cat .netrc
-# machine api.heroku.com
-#   login me@example.com
-#   password c4cd94da15ea0544802c2cfd5ec4ead324327430
-# machine code.heroku.com
-#   login me@example.com
-#   password c4cd94da15ea0544802c2cfd5ec4ead324327430
-# $
