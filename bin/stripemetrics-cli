@@ -2,6 +2,7 @@
 require 'gli'
 require 'stripemetrics-cli'
 require 'stripemetrics-cli/authorization'
+require 'stripemetrics-cli/api_client'
 
 include GLI::App
 
@@ -51,7 +52,8 @@ command :report do |c|
 end
 
 pre do |global,command,options,args|
-  auth = StripemetricsCli::Authorization.new
+  api_client = StripemetricsCli::ApiClient.new
+  auth = StripemetricsCli::Authorization.new(api_client)
   if (command != 'help' || command != 'login' )&& !auth.valid?
     exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
   end

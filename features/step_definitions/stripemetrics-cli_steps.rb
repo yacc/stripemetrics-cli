@@ -1,5 +1,6 @@
 require 'stripemetrics-cli'
 require 'stripemetrics-cli/authorization'
+require 'stripemetrics-cli/api_client'
 
 # ================= WHENs ===================
 When /^I get help for "([^"]*)"$/ do |app_name|
@@ -16,11 +17,13 @@ end
 
 # ================= GIVENs ===================
 Given(/^that the app is not authorized$/) do
-  StripemetricsCli::Authorization.new.logout!
+  api_client = StripemetricsCli::ApiClient.new
+  StripemetricsCli::Authorization.new(api_client).logout!
 end
 
 Given(/^that the app is authorized$/) do
-  StripemetricsCli::Authorization.new.login!
+  api_client = StripemetricsCli::ApiClient.new
+  StripemetricsCli::Authorization.new(api_client).login!
 end
 
 Given(/^I run the following commands$/) do |table|
