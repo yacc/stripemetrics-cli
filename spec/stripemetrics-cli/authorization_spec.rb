@@ -6,41 +6,17 @@ require 'stripemetrics-cli/authorization'
 
 module StripemetricsCli
 
-  def stub_netrc(valid=true)
-    @token = 'xin128129nfsjb'
-    if valid
-      File.open(@netrcf, "w") do |f|
-        f.puts %Q{
-machine api.stripemetrics.com
-login yacin@me.com
-password #{@token}           
-        }
-      end
-    else
-      File.open(@netrcf, "w") do |f|
-        f.puts %Q{
-machine api.something.com
-login yacin@me.com
-password anothersekkret           
-machine api.stripemetrics.com
-login yacin@me.com
-        }
-      end
-    end
-    FileUtils.chmod 0600, @netrcf unless RUBY_PLATFORM =~ /mswin32|mingw32/   
-  end
-
-  before(:all) do
-    @tmpdir = Dir.mktmpdir('testing')
-    @netrcf = File.join(@tmpdir,".netrc")
-  end
-
-  after(:all) do
-    FileUtils.rm_rf(@tmpdir)
-  end 
-
-
   describe "Authorize from credentials"  do
+
+    before(:all) do
+      @tmpdir = Dir.mktmpdir('testing')
+      @netrcf = File.join(@tmpdir,".netrc")
+    end
+
+    after(:all) do
+      FileUtils.rm_rf(@tmpdir)
+    end 
+
     describe "login" do 
       it "creates token from valid email and password" do
         api_client = double 'stripemetrics api client'
@@ -66,11 +42,19 @@ login yacin@me.com
   end
   describe "Authorize from netrc file" do  
 
+    before(:all) do
+      @tmpdir = Dir.mktmpdir('testing')
+      @netrcf = File.join(@tmpdir,".netrc")
+    end
+
+    after(:all) do
+      FileUtils.rm_rf(@tmpdir)
+    end 
     describe "login" do 
       it "errors if no valid credentials and no .netrc file is found" do
         api_client = double 'stripemetrics api client'
         stub_netrc
-        FileUtils.rm(@netrcf) # just to make clean what case we're testing
+        FileUtils.rm(@netrcf) if File.exist?(@netrcf)# just to make clean what case we're testing
 
         auth = StripemetricsCli::Authorization.new(api_client,{:netrcf => @netrcf})
         auth.token.should be_nil
@@ -99,10 +83,11 @@ login yacin@me.com
         api_client = double 'stripemetrics api client'
         token = 'xin128129nfsjb'
         api_client.stub(:get_token).and_return(token) 
+        FileUtils.rm(@netrcf) if File.exist?(@netrcf)# just to make clean what case we're testing
 
         auth = StripemetricsCli::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
 
-        netrc  = Netrc.read(File.join(Dir.home,".netrc"))
+        netrc  = Netrc.read(@netrcf)
         user, pass = netrc["api.stripemetrics.com"]
         user.should == 'yacin@me.com'
         pass.should == token
