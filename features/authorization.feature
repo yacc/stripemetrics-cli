@@ -30,4 +30,10 @@ Feature: StripeMetrics is not authorized
     | stripemetrics-cli help     |
     | stripemetrics-cli help import     |
     | stripemetrics-cli help refresh    |
-    | stripemetrics-cli help report     |    
+    | stripemetrics-cli help report     |  
+
+  Scenario: App logs me in
+    When I run `stripemetrics-cli login` interactively
+    And I type "yacin@me.com"
+    And I type "sekkret"
+    Then I should be logged in        
