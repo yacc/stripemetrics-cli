@@ -1,18 +1,18 @@
 # Ensure we require the local version and not one we might have installed already
-require File.join([File.dirname(__FILE__),'lib','stripemetrics-cli','version.rb'])
+require File.join([File.dirname(__FILE__),'lib','stripemetrics','version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'stripemetrics-cli'
-  s.version = StripemetricsCli::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.version = Stripemetrics::VERSION
+  s.author = 'Yacin Bahi'
+  s.email = 'yacinb@gmail.com'
+  s.homepage = 'https://stripemetrics.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A description of your project'
+  s.summary = 'Command Line Interfce for StripeMetrics'
 # Add your other files here if you make them
   s.files = %w(
 bin/stripemetrics-cli
-lib/stripemetrics-cli/version.rb
-lib/stripemetrics-cli.rb
+lib/stripemetrics/version.rb
+lib/stripemetrics.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true

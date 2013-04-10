@@ -1,14 +1,16 @@
 #!/usr/bin/env ruby
 require 'gli'
-require 'stripemetrics-cli'
-require 'stripemetrics-cli/authorization'
-require 'stripemetrics-cli/api_client'
+require 'highline/import'
+
+require 'stripemetrics'
+require 'stripemetrics/authorization'
+require 'stripemetrics/api_client'
 
 include GLI::App
 
 program_desc 'Get stripe metrics from the command line'
 
-version StripemetricsCli::VERSION
+version Stripemetrics::VERSION
 
 desc 'Development mode'
 switch [:d,:development]
@@ -19,8 +21,8 @@ command :login do |c|
     username = ask("StripeMetrics.com login:      ")
     password = ask("Enter your password:  ") { |q| q.echo = false }
     
-    api_client = StripemetricsCli::ApiClient.new
-    auth = StripemetricsCli::Authorization.new(api_client,{:email => username,:password => password})
+    api_client = Stripemetrics::ApiClient.new
+    auth = Stripemetrics::Authorization.new(api_client,{:email => username,:password => password})
 
   end
 end
@@ -52,11 +54,13 @@ command :report do |c|
 end
 
 pre do |global,command,options,args|
-  api_client = StripemetricsCli::ApiClient.new
-  auth = StripemetricsCli::Authorization.new(api_client)
-  if (command != 'help' || command != 'login' )&& !auth.valid?
-    exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
-  end
+  if command.name != :help && command.name != :login
+    api_client = Stripemetrics::ApiClient.new
+    auth = Stripemetrics::Authorization.new(api_client)
+    unless auth.valid?
+      exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
+    end
+  end  
   true
 end
 

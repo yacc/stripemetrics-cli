@@ -1,6 +1,6 @@
-Feature: Help for setup command
-  In order to understand the setup command
-  I want to see relevant help on the setup command
+Feature: Help for login command
+  In order to understand the login command
+  I want to see help on the login command
 
   Scenario: 
     When I get help for "stripemetrics-cli" for the command "login"

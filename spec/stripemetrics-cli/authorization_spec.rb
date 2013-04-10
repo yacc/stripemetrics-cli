@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'tmpdir'
 require 'netrc'
-require 'stripemetrics-cli'
-require 'stripemetrics-cli/authorization'
+require 'stripemetrics'
+require 'stripemetrics/authorization'
 
-module StripemetricsCli
+module Stripemetrics
 
   describe "Authorize from credentials"  do
 
@@ -22,9 +22,9 @@ module StripemetricsCli
         api_client = double 'stripemetrics api client'
         #response = {:token => 'xin128129nfsjb',:status => 200}
         token = 'xin128129nfsjb'
-        api_client.stub(:get_token).and_return(token) 
+        api_client.stub(:post_login).and_return(token) 
 
-        auth = StripemetricsCli::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
         auth.token.should_not be_nil
         auth.token.should == token
       end
@@ -32,9 +32,9 @@ module StripemetricsCli
         api_client = double 'stripemetrics api client'
         #response = {:token => nil, :status => 401}
         token = nil
-        api_client.stub(:get_token).and_return(token) 
+        api_client.stub(:post_login).and_return(token) 
 
-        auth = StripemetricsCli::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
         auth.token.should be_nil
         auth.valid?.should be_false
       end
@@ -56,7 +56,7 @@ module StripemetricsCli
         stub_netrc
         FileUtils.rm(@netrcf) if File.exist?(@netrcf)# just to make clean what case we're testing
 
-        auth = StripemetricsCli::Authorization.new(api_client,{:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:netrcf => @netrcf})
         auth.token.should be_nil
         auth.valid?.should be_false
       end 
@@ -65,7 +65,7 @@ module StripemetricsCli
         api_client = double 'stripemetrics api client'
         stub_netrc(false)
 
-        auth = StripemetricsCli::Authorization.new(api_client,{:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:netrcf => @netrcf})
         auth.token.should be_nil
       end 
 
@@ -73,7 +73,7 @@ module StripemetricsCli
         api_client = double 'stripemetrics api client'
         stub_netrc
         
-        auth = StripemetricsCli::Authorization.new(api_client,{:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:netrcf => @netrcf})
         auth.token.should_not be_nil
         auth.token.should == @token
         auth.valid?.should be_true
@@ -82,10 +82,10 @@ module StripemetricsCli
       it "saves token to .netrc file" do
         api_client = double 'stripemetrics api client'
         token = 'xin128129nfsjb'
-        api_client.stub(:get_token).and_return(token) 
+        api_client.stub(:post_login).and_return(token) 
         FileUtils.rm(@netrcf) if File.exist?(@netrcf)# just to make clean what case we're testing
 
-        auth = StripemetricsCli::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
+        auth = Stripemetrics::Authorization.new(api_client,{:email => 'yacin@me.com',:password => 'sekkret',:netrcf => @netrcf})
 
         netrc  = Netrc.read(@netrcf)
         user, pass = netrc["api.stripemetrics.com"]

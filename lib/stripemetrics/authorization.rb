@@ -1,6 +1,7 @@
 require 'netrc'
+require 'stripemetrics/api_client'
 
-module StripemetricsCli
+module Stripemetrics
   class Authorization
     attr_reader :token
 
@@ -8,19 +9,11 @@ module StripemetricsCli
       @netrc_file = options[:netrcf] || netrc_path
       if options.has_key?(:email) && options.has_key?(:password)
         @username = options[:email]
-        @token    = api_client.get_token(options[:email],options[:password])
+        @token    = api_client.post_login(options[:email],options[:password])
         write_credentials
       else
         @token = read_token
       end    
-    end
-
-    def login!
-
-    end
-
-    def logout!
-
     end
 
     def valid?

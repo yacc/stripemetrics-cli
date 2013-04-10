@@ -1,6 +1,6 @@
 Feature: StripeMetrics is not authorized
   In order to use StripeMetrics
-  I need to be authorized unless I'm asking for help
+  I need to be authorized unless I'm asking for help or login in
   Background:
     Given that the app is not authorized
  
@@ -36,4 +36,4 @@ Feature: StripeMetrics is not authorized
     When I run `stripemetrics-cli login` interactively
     And I type "yacin@me.com"
     And I type "sekkret"
-    Then I should be logged in        
+    Then the exit status should be 0  
