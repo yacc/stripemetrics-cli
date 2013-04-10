@@ -20,8 +20,17 @@ lib/stripemetrics.rb
   s.rdoc_options << '--title' << 'stripemetrics-cli' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'stripemetrics-cli'
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
-  s.add_development_dependency('aruba')
-  s.add_runtime_dependency('gli','2.5.6')
+  
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rdoc'
+  s.add_development_dependency 'aruba'
+  s.add_development_dependency 'rspec', '~> 2.6'
+  s.add_development_dependency 'webmock', '~> 1.6'
+  s.add_development_dependency 'fakefs' #, :require => "fakefs/safe"
+
+  s.add_runtime_dependency 'gli','2.5.6'
+  s.add_runtime_dependency 'netrc', '0.7.7'
+  s.add_runtime_dependency 'highline', '1.6.15'
+  s.add_runtime_dependency 'faraday_middleware', '~> 0.6'
+
 end
