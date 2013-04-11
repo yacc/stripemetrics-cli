@@ -6,14 +6,14 @@ module Stripemetrics
       private
 
       def connection
-        connection = Faraday.new(:url => target_url) do |builder|
-          builder.use Faraday::Request::JSON
-          builder.use Faraday::Response::Rashify
-          builder.use Faraday::Response::ParseJson
-
-          builder.adapter http_adapter
+        connection = Faraday.new target_url do |conn|
+          conn.request :json
+          conn.response :json, :content_type => /\bjson$/
+          #conn.use :instrumentation
+          conn.adapter Faraday.default_adapter
         end
       end
     end
   end
 end
+

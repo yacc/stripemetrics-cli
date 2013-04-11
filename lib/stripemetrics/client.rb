@@ -6,11 +6,10 @@ require 'stripemetrics/client/request'
 
 module Stripemetrics
   class Client
-    attr_accessor :app_name, :http_adapter, :target_url
+    attr_accessor :http_adapter, :target_url
 
     def initialize(options={})
       @auth_token = options[:auth_token]
-      @app_name = options[:app_name]
       @target_url = options[:target_url] || Stripemetrics::DEFAULT_LOCAL_TARGET
       @http_adapter = :net_http
     end

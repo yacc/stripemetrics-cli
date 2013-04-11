@@ -11,6 +11,8 @@ switch [:d,:development]
 require 'stripemetrics/cli/commands'
 
 pre do |global,command,options,args|
+  @client ||= Stripemetrics::Client.new(:target_url => config.target)
+
   if command.name != :help && command.name != :login
     api_client = Stripemetrics::ApiClient.new
     auth = Stripemetrics::Authorization.new(api_client)

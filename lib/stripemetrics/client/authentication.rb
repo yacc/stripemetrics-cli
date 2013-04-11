@@ -5,12 +5,12 @@ module Stripemetrics
       attr_reader :user
 
       def login(username, password)
-        response = post("#{Stripemetrics::USERS_PATH}/#{username}/tokens",
-                        :body => { :password => password })
-        raise TargetError if response.code == 200
+        response = post("auth/tokens", 
+                        :body => {:username => username, :password => password })
+        raise TargetError if response["code"] == 200
 
         @user = username
-        @auth_token = response.token
+        @auth_token = response["token"]
       end
 
       def auth_token_valid?

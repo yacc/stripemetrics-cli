@@ -1,4 +1,8 @@
 require 'file_helpers'
+require 'request_helpers'
+
+ENV['smenv'] || 'test'
+
 RSpec.configure do |config|
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -7,4 +11,5 @@ RSpec.configure do |config|
 
   config.order = 'random'
   config.include(FileHelpers)
+  config.include(RequestHelpers)
 end

@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'tmpdir'
 require 'netrc'
 require 'stripemetrics'
-require 'stripemetrics/authorization'
 
 module Stripemetrics
 

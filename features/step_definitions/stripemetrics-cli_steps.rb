@@ -1,6 +1,4 @@
 require 'stripemetrics'
-require 'stripemetrics/authorization'
-require 'stripemetrics/api_client'
 
 # ================= WHENs ===================
 When /^I get help for "([^"]*)"$/ do |app_name|
