@@ -1,12 +1,12 @@
 module FileHelpers
    def stub_netrc(valid=true)
-      @token = 'xin128129nfsjb'
+      @auth_token = 'xin128129nfsjb'
       if valid
         File.open(@netrcf, "w") do |f|
           f.puts %Q{
   machine api.stripemetrics.com
   login yacin@me.com
-  password #{@token}           
+  password #{@auth_token}           
           }
         end
       else

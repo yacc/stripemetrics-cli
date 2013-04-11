@@ -1,5 +1,4 @@
 require 'netrc'
-require 'stripemetrics/api_client'
 
 module Stripemetrics
   class Authorization
