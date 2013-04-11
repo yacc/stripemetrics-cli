@@ -14,29 +14,17 @@ module Stripemetrics
           @user = username
           @auth_token = response["token"]
           write_credentials
-        else
-          @auth_token = read_token
         end  
         @auth_token  
       end
 
       def auth_token_valid?
-        descr = info
-        if descr
-          return false unless descr[:user]
-          return false unless descr[:usage]
-          @user = descr[:user]
-          true
-        end
+        return true if read_credentials
       end
 
       def logged_in?
         user
       end
-
-    def valid?
-      @token
-    end
 
     def host
       "stripemetrics.com"  
@@ -70,6 +58,17 @@ module Stripemetrics
         credentials = netrc["api.#{host}"]
         credentials[1] if credentials
       end
+    end
+
+    def read_credentials
+      if netrc
+        credentials = netrc["api.#{host}"]
+        if credentials
+          @user =  credentials['login'] 
+          @auth_token =  credentials['password'] 
+        end
+      end
+      @auth_token
     end
 
     def write_credentials
