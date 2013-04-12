@@ -29,6 +29,7 @@ lib/stripemetrics.rb
   s.add_development_dependency 'fakefs' #, :require => "fakefs/safe"
 
   s.add_runtime_dependency 'gli','2.5.6'
+  s.add_runtime_dependency 'launchy', '2.2.0'
   s.add_runtime_dependency 'netrc', '0.7.7'
   s.add_runtime_dependency 'highline', '1.6.15'
   s.add_runtime_dependency 'faraday_middleware'

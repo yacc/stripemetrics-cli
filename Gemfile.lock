@@ -5,6 +5,7 @@ PATH
       faraday_middleware
       gli (= 2.5.6)
       highline (= 1.6.15)
+      launchy (= 2.2.0)
       netrc (= 0.7.7)
 
 GEM
@@ -36,6 +37,8 @@ GEM
     gli (2.5.6)
     highline (1.6.15)
     json (1.7.7)
+    launchy (2.2.0)
+      addressable (~> 2.3)
     multi_json (1.7.2)
     multipart-post (1.2.0)
     netrc (0.7.7)

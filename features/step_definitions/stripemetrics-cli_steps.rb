@@ -31,7 +31,7 @@ end
 
 # ================= THENs ===================
 Then(/^I the app should log me in$/) do
-  # stub_request(:post, 'http://api.stripemetrics.dev/v1/auth/tokens').to_return do |request|
-  #   {:token => 'fewfwefwefwfe', :status => 200}
-  # end
+  stub_request(:post, 'http://api.stripemetrics.dev/v1/auth/tokens').to_return do |request|
+    {:token => 'fewfwefwefwfe', :status => 200}
+  end
 end

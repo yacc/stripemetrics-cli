@@ -16,7 +16,6 @@ module Stripemetrics
 
           @user = username
           @auth_token = response["token"]
-          raise "===> response #{response}"
           write_credentials
         end  
         @auth_token  
