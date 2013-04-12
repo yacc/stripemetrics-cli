@@ -11,10 +11,12 @@ module Stripemetrics
           response = post("auth/tokens", 
                           :body => {:username => username, :password => password },
                           :require_auth => true)
-          raise TargetError if response["code"] == 200
+          raise TargetError if response["code"] == 404
+          raise AuthError if response["code"] == 401
 
           @user = username
           @auth_token = response["token"]
+          raise "===> response #{response}"
           write_credentials
         end  
         @auth_token  
@@ -43,6 +45,7 @@ module Stripemetrics
     end
 
     def netrc   # :nodoc:
+      @netrc_file ||= netrc_path
       @netrc ||= begin
         File.exists?(@netrc_file) && Netrc.read(@netrc_file)
       rescue => error

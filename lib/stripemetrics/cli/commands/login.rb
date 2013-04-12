@@ -9,11 +9,10 @@ command :login do |c|
       token = @client.login(username, password)
       say("<%= color('Login successful!', :bold) %>")
 
-      #config.update(:tokens, token)
-    # rescue Stripemetrics::Client::TargetError
-    #   say("<%= color('Login failed!', :red) %>")
     rescue Stripemetrics::Client::AuthError
-      say("<%= color('Login failed!', :red) %>")
+      exit_now! 'Login failed!'
+    rescue
+      exit_now! 'Oops ...'
     end
   end
 end

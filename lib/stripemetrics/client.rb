@@ -1,8 +1,11 @@
 require 'stripemetrics/client/authentication'
 require 'stripemetrics/client/connection'
+require 'stripemetrics/client/request'
 require 'stripemetrics/client/errors'
 require 'stripemetrics/client/info'
-require 'stripemetrics/client/request'
+require 'stripemetrics/client/import'
+require 'stripemetrics/client/refresh'
+require 'stripemetrics/client/report'
 
 module Stripemetrics
   class Client
@@ -16,7 +19,10 @@ module Stripemetrics
 
     include Authentication
     include Connection
-    include Info
     include Request
+    include Info
+    include Import
+    include Refresh
+    include Report
   end
 end

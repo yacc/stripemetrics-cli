@@ -15,13 +15,11 @@ end
 
 # ================= GIVENs ===================
 Given(/^that the app is not authorized$/) do
-  api_client = Stripemetrics::ApiClient.new
-  @auth = Stripemetrics::Authorization.new(api_client)
+  @client = nil
 end
 
 Given(/^that the app is authorized$/) do
-  api_client = Stripemetrics::ApiClient.new
-  @auth = Stripemetrics::Authorization.new(api_client)
+  @client ||= Stripemetrics::Client.new
 end
 
 Given(/^I run the following commands$/) do |table|
@@ -32,6 +30,8 @@ Given(/^I run the following commands$/) do |table|
 end
 
 # ================= THENs ===================
-Then(/^I should be logged in$/) do
-  @auth.valid?
+Then(/^I the app should log me in$/) do
+  # stub_request(:post, 'http://api.stripemetrics.dev/v1/auth/tokens').to_return do |request|
+  #   {:token => 'fewfwefwefwfe', :status => 200}
+  # end
 end

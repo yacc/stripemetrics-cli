@@ -12,6 +12,7 @@ module RequestHelpers
     fixture_file = status == :success ? "login_success.txt" : "login_fail.txt"
     stub_request(:post, "http://api.stripemetrics.com/auth/tokens").
             with(:body => {:username => 'yacin@me.com', :password => 'sekkret'}).
-            to_return(fixture(fixture_file))  end
+            to_return(fixture(fixture_file))  
+  end
 
 end

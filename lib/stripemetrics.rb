@@ -4,6 +4,8 @@ require 'stripemetrics/cli'
 
 module Stripemetrics
   case ENV['smenv'] # StripeMetricsEnvironment
+  when 'test'
+    DEFAULT_LOCAL_TARGET = 'http://api.stripemetrics.dev/v1'
   when 'development'
     DEFAULT_LOCAL_TARGET = 'http://api.stripemetrics.dev/v1'
   when 'staging'

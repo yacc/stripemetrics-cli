@@ -9,8 +9,7 @@ Feature: StripeMetrics is not authorized
     Then the exit status should be 1
     And the output should contain:
     """
-    You need to authorize with StripeMetrics.com ! Try login in first with this command:
-    stripemetrics-cli login
+    error: You need to authorize with StripeMetrics.com first!\nTry login in with this command:\nstripemetrics-cli login\n
     """
 
     Examples:
