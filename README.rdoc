@@ -4,3 +4,5 @@ Describe your project here
 
 :include:stripemetrics-cli.rdoc
 
+
+smenv=development bundle exec bin/stripemetrics-cli login

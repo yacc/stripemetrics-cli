@@ -1,3 +1,4 @@
+require 'netrc'
 module Stripemetrics
   class Client
     module Authentication
@@ -8,7 +9,8 @@ module Stripemetrics
         @netrc_file = options[:netrcf] || netrc_path
         if username && password
           response = post("auth/tokens", 
-                          :body => {:username => username, :password => password })
+                          :body => {:username => username, :password => password },
+                          :require_auth => true)
           raise TargetError if response["code"] == 200
 
           @user = username

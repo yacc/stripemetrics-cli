@@ -6,7 +6,7 @@ module Stripemetrics
       private
 
       def connection
-        connection = Faraday.new target_url do |conn|
+        connection = Faraday.new @target_url do |conn|
           conn.request :json
           conn.response :json, :content_type => /\bjson$/
           #conn.use :instrumentation

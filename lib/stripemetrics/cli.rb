@@ -11,15 +11,13 @@ switch [:d,:development]
 require 'stripemetrics/cli/commands'
 
 pre do |global,command,options,args|
-  @client ||= Stripemetrics::Client.new(:target_url => config.target)
-
-  if command.name != :help && command.name != :login
-    api_client = Stripemetrics::ApiClient.new
-    auth = Stripemetrics::Authorization.new(api_client)
-    unless auth.valid?
-      exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
-    end
-  end  
+  @client ||= Stripemetrics::Client.new
+  # if command.name != :help && command.name != :login
+  #     @client ||= Stripemetrics::Client.new(:target_url => config.target)
+  #   unless auth.valid?
+  #     exit_now!("You need to authorize with StripeMetrics.com ! Try login in first with this command:\nstripemetrics-cli login")
+  #   end
+  # end  
   true
 end
 
