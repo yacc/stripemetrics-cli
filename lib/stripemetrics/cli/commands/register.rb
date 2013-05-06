@@ -5,8 +5,8 @@ command :register do |c|
   c.action do |global,options,args|
     begin
       say("<%= color('Connecting you with Stripemetrics.com ....', :yellow) %>")
-      Launchy.open( "http://stripemetrics.dev/register")
-      say("<%= color('If you registration was successful, you should be ale to use your credentials to login.', :bold) %>")
+      Launchy.open( "http://stripemetrics.dev")
+      say("<%= color('If you registration was successful, you should now be able to use your credentials to login.', :bold) %>")
       say("<%= color('Try login in with this command:\nstripemetrics-cli login',:bold) %>")
 
     rescue Stripemetrics::Client::AuthError

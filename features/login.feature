@@ -2,6 +2,7 @@ Feature: Login command
   In order to get access to stripemetics
   I want to be able to login
 
+  @wip
   Scenario: 
     Given that the app is not authorized
     When I run `stripemetrics-cli login` interactively
