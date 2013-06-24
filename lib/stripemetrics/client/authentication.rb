@@ -5,20 +5,36 @@ module Stripemetrics
       attr_accessor :auth_token
       attr_reader :user
 
-      def login(username, password, options={})      
+      def token(username, password, options={})
         @netrc_file = options[:netrcf] || netrc_path
         if username && password
           response = post("auth/tokens", 
                           :body => {:username => username, :password => password },
                           :require_auth => true)
-          raise TargetError if response["code"] == 404
-          raise AuthError if response["code"] == 401
+          raise TargetError if response.status == 404
+          raise AuthError if response.status == 401
 
           @user = username
-          @auth_token = response["token"]
+          @auth_token = response.body["token"]
           write_credentials
         end  
         @auth_token  
+      end
+
+      def login(username, password, options={})
+        @netrc_file = options[:netrcf] || netrc_path
+        if username && password
+          response = get("auth/login", 
+                          :params => {:username => username, :password => password },
+                          :require_auth => false)
+          raise TargetError if response.status == 404
+          raise AuthError if response.status == 401
+
+          @user = username
+          @auth_token = response.body["token"]
+          write_credentials
+        end  
+        @netrc_file  
       end
 
       def auth_token_valid?

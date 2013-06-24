@@ -6,13 +6,14 @@ command :login do |c|
       password = ask("Enter your password:  ") { |q| q.echo = false }
 
       say("<%= color('Attempting to login....', :yellow) %>")
-      token = @client.login(username, password)
+      netrc_file = @client.login(username, password)
       say("<%= color('Login successful!', :bold) %>")
+      say("<%= color('Credentials saved in #{netrc_file}', :bold) %>")
 
     rescue Stripemetrics::Client::AuthError
       exit_now! 'Login failed!'
-    rescue
-      exit_now! 'Oops ...'
+    rescue Stripemetrics::Client::TargetError
+      exit_now! 'Oops ... something went wrong ;-('
     end
   end
 end

@@ -17,11 +17,11 @@ module Stripemetrics
         headers.merge!(options[:headers]) if options[:headers]
 
         response = connection.send(action, path) do |request|
-          request.body = options[:body] if options[:body]
+          request.body    = options[:body]   if options[:body]
+          request.params  = options[:params] if options[:params]
           request.headers = headers unless headers.empty?
         end
-
-        response.body
+        response
       end
 
       def check_login_status
