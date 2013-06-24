@@ -3,8 +3,8 @@ arg_name 'Describe arguments to refresh here'
 command :refresh do |c|
   c.action do |global_options,options,args|
     begin
-      token = @client.refresh
-      say("<%= color('Running import, this might take a while ....', :yellow) %>")
+      status = @client.refresh
+      say("<%= color('Refreshing your data, this might take a while ....', :yellow) %>")
       say("<%= color('You can generate a partial report at anytime,', :yellow) %>")
       say("<%= color('If the imports are not finished, partial data is used to generate the reports.', :yellow) %>")
 

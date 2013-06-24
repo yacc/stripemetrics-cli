@@ -37,6 +37,15 @@ module Stripemetrics
         @netrc_file  
       end
 
+      def ping
+        response = get("auth/ping", :require_auth => true)
+        raise TargetError if response.status == 404
+        raise AuthError if response.status == 401
+        raise ApiError if response.status != 200 
+        response.body["message"]
+      end
+
+
       def auth_token_valid?
         return true if read_credentials
       end
@@ -84,8 +93,8 @@ module Stripemetrics
       if netrc
         credentials = netrc["api.#{host}"]
         if credentials
-          @user =  credentials['login'] 
-          @auth_token =  credentials['password'] 
+          @user =  credentials[0] #['login'] 
+          @auth_token =  credentials[1] #['password'] 
         end
       end
       @auth_token
