@@ -6,10 +6,12 @@ require 'stripemetrics/client/info'
 require 'stripemetrics/client/import'
 require 'stripemetrics/client/refresh'
 require 'stripemetrics/client/report'
+require 'command_line_reporter'
 
 module Stripemetrics
   class Client
     attr_accessor :http_adapter, :target_url
+    include CommandLineReporter
 
     def initialize(options={})
       @auth_token = options[:auth_token]
@@ -24,5 +26,6 @@ module Stripemetrics
     include Import
     include Refresh
     include Report
+    
   end
 end

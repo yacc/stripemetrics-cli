@@ -1,17 +1,21 @@
 desc 'Generate report(s)'
-arg_name 'Describe arguments to report here'
+arg_name 'metric1, metrics2[,metric3]*'
+long_desc <<-EOS
+  Generates a report from your StripeMetrics data. The reports include all the metrics by default.\n
+  The report is an ascii table that shows the metrics and compares it to last month, then explicitly calculates the monthly change, the trailing six month average and finally compares the metric to the goal best communicates the state of that metric
+  ex: bundle exec ./bin/stripemetrics-cli report churn charges
+  EOS
 command :report do |c|
+  c.switch [:a,:all]
   c.action do |global_options,options,args|
     begin
-      token = @client.report
-      say("<%= color('Running import, this might take a while ....', :yellow) %>")
-      say("<%= color('You can generate a partial report at anytime,', :yellow) %>")
-      say("<%= color('If the imports are not finished, partial data is used to generate the reports.', :yellow) %>")
-
+      say("<%= color('Gathering data from StripeMetrics ....', :yellow) %>")
+      token = @client.print options, args
     rescue Stripemetrics::Client::AuthError
       exit_now! "You need to authorize with StripeMetrics.com first!\nTry login in with this command:\nstripemetrics-cli login"
-    rescue
-      exit_now! 'Oops ...'
+    rescue Exception => e
+      exit_now! "Oops ... #{e.message}"
     end
   end
 end
+

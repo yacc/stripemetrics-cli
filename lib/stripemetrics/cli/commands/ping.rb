@@ -7,8 +7,8 @@ command :ping do |c|
       say("<%= color('#{pong}!', :yellow) %>")
     rescue Stripemetrics::Client::AuthError
       exit_now! 'Dropped the ball .... login failed!'
-    rescue # Stripemetrics::Client::TargetError
-      exit_now! 'Oops ... something went wrong ;-('
+    rescue Exception => e
+      exit_now! "Oops ... #{e.message}"
     end
   end
 end

@@ -10,8 +10,8 @@ command :refresh do |c|
 
     rescue Stripemetrics::Client::AuthError
       exit_now! "You need to authorize with StripeMetrics.com first!\nTry login in with this command:\nstripemetrics-cli login"
-    rescue
-      exit_now! 'Oops ...'
+    rescue Exception => e
+      exit_now! "Oops ... #{e.message}"
     end
   end
 end    
