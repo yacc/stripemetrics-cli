@@ -35,8 +35,8 @@ module Stripemetrics
            column(metric['name'])
            column(metric['this_month'])
            column(metric['last_month'])
-           column(metric['change'])
-           column(metric['tsm_avrg'])
+           column("#{(metric['change'].round(2)*100)}%")
+           column("#{metric['tsm_avrg'].round(2)*100}%")
            column(metric['goal'])
          end        
       end
