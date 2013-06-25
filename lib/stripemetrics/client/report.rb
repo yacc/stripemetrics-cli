@@ -21,24 +21,33 @@ module Stripemetrics
 
       def header
          row do
-           column('Metric', :width => 15)
-           column('This month', :width => 11)
-           column('Last month', :width => 11)
-           column('% change', :width => 11)
-           column('TSM Average', :width => 11)
-           column('Goal', :width => 11)
+           column 'Metric', :width => 15,       :align => 'left'
+           column 'This month', :width => 11,   :align => 'right'
+           column 'Last month', :width => 11,   :align => 'right'
+           column '% change', :width => 11,     :align => 'right'
+           column 'TSM Average', :width => 11,  :align => 'right'
+           column 'Goal', :width => 11,         :align => 'right'
          end                    
       end          
 
       def display_row(metric)
          row do
-           column(metric['name'])
-           column(metric['this_month'])
-           column(metric['last_month'])
-           column("#{(metric['change'].round(2)*100)}%")
-           column("#{metric['tsm_avrg'].round(2)*100}%")
-           column(metric['goal'])
+           column metric['name']
+           column with_unit(metric['_type'],metric['this_month'])
+           column with_unit(metric['_type'],metric['last_month'])
+           column rounded_percent(metric['change'])
+           column rounded_percent(metric['tsm_avrg'])
+           column metric['goal']
          end        
+      end
+
+      def rounded_percent(val)
+        '%.2f%' % (val*100)
+      end
+
+      def with_unit(type,val)
+         unit = '$' if type.downcase =~ /revenue/
+         "#{unit}#{val}"     
       end
 
     end

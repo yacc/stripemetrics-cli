@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     stripemetrics-cli (0.0.1)
-      command_line_reporter
+      command_line_reporter (>= 3.0)
       faraday_middleware
       gli (= 2.6.0rc1)
       highline (= 1.6.15)

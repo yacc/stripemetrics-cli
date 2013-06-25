@@ -12,6 +12,7 @@ command :report do |c|
       say("<%= color('Gathering data from StripeMetrics ....', :yellow) %>")
       metrics = @client.get_metrics
       token = @client.print metrics, options, args
+      say("<%= color('(*) TSM Average column is the Trailing Six Month Compound Growth Rate', :blue) %>")
     rescue Stripemetrics::Client::AuthError
       exit_now! "You need to authorize with StripeMetrics.com first!\nTry login in with this command:\nstripemetrics-cli login"
     rescue Exception => e
