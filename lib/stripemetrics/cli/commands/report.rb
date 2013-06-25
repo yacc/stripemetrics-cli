@@ -10,7 +10,8 @@ command :report do |c|
   c.action do |global_options,options,args|
     begin
       say("<%= color('Gathering data from StripeMetrics ....', :yellow) %>")
-      token = @client.print options, args
+      metrics = @client.get_metrics
+      token = @client.print metrics, options, args
     rescue Stripemetrics::Client::AuthError
       exit_now! "You need to authorize with StripeMetrics.com first!\nTry login in with this command:\nstripemetrics-cli login"
     rescue Exception => e
