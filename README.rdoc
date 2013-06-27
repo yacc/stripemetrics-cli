@@ -3,6 +3,6 @@
 Generate metrics and trends reports for your Stripe account from the command line.
 Requires an account on https://stripemetrics.com.
 
-Stripemetrics.com is not live yet, send me a message "info@stripemetrics.com" if you're interested in becoming a beta tester.
+More information on the page http://yacc.github.io/stripemetrics-cli/
 
-     Yacin Bahi
+     Yacin Bahi (@yacc)
