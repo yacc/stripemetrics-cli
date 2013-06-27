@@ -5,7 +5,7 @@ require 'stripemetrics/client/errors'
 require 'stripemetrics/client/info'
 require 'stripemetrics/client/import'
 require 'stripemetrics/client/refresh'
-require 'stripemetrics/client/report'
+require 'stripemetrics/client/metric'
 require 'command_line_reporter'
 
 module Stripemetrics
@@ -25,7 +25,7 @@ module Stripemetrics
     include Info
     include Import
     include Refresh
-    include Report
+    include Metric
     
   end
 end

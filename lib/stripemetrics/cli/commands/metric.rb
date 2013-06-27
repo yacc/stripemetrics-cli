@@ -1,16 +1,16 @@
-desc 'Generate report(s)'
+desc 'Generate Metric Report(s)'
 arg_name 'metric1, metrics2[,metric3]*'
 long_desc <<-EOS
-  Generates a report from your StripeMetrics data. The reports include all the metrics by default.\n
+  Generates a report from your StripeMetrics data. The reports include no metrics by default. Use the '-a' switch to include all the metrics. \n
   The report is an ascii table that shows the metrics and compares it to last month, then explicitly calculates the monthly change, the trailing six month average and finally compares the metric to the goal best communicates the state of that metric
   ex: bundle exec ./bin/stripemetrics-cli report churn charges
   EOS
-command :report do |c|
+command :metric do |c|
   c.switch [:a,:all]
   c.action do |global_options,options,args|
     begin
       say("<%= color('Gathering data from StripeMetrics ....', :yellow) %>")
-      metrics = @client.get_metrics
+      metrics = @client.get_data
       token = @client.print metrics, options, args
       say("<%= color('(*) TSM Average column is the Trailing Six Month Compound Growth Rate', :blue) %>")
     rescue Stripemetrics::Client::AuthError

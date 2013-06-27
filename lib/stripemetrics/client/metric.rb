@@ -1,8 +1,8 @@
 module Stripemetrics
   class Client
-    module Report
+    module Metric
 
-      def get_metrics
+      def get_data
         response = get('/v1/metrics', :require_auth => true)
         raise TargetError if response.status == 404
         raise AuthError if response.status == 401
